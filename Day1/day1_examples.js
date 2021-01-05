@@ -232,3 +232,13 @@ db.friend.count()
 //Drop the entire collection.
 db.friend.drop()
 db.friend.count()
+
+
+//Extra -
+// For documents in business where zipcode is 10462, and street is "Castle Hill Avenue",
+// Update its grade to "A+" if score is greater than 10.
+db.business.find({"address.zipcode" : "10462", "address.street" : "Castle Hill Avenue"})
+
+db.business.update({"address.zipcode" : "10462", "address.street" : "Castle Hill Avenue"},
+                   {$set:{"grades.$[elem].grade":"A+"}},
+                   {arrayFilters:[{"elem.score":{$gt:10}}], multi:true})
