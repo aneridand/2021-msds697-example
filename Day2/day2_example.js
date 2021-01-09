@@ -188,3 +188,11 @@ db.world_bank_project.find({"countrycode" : "AO"}).explain("executionStats")	//"
                    
 // 4) Drop the index
 db.world_bank_project.dropIndex({"countrycode":"hashed"})
+
+
+// Extra Question
+// List the address’ coordinate and the number of documents belong to it in descending order.
+db.business.aggregate({$project:{"address.coord":true, "_id":false}},
+                      {$group:{"_id":"$address", "count":{$sum:1}}},
+                      {$sort:{"count":-1}},
+                      {$project:{"address":"$_id", "_id":false, "count":true}})
